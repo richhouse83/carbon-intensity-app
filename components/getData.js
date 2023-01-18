@@ -2,8 +2,10 @@ import { Text } from 'react-native';
 import axios from 'axios';
 
 
-export default async function getData(setForecast, setCurrent, setGeneration) {
+export default async function getData(setForecast, setCurrent, setGeneration, setRefreshing) {
   const date = new Date(Date.now());
+  setForecast([]);
+  setGeneration([])
   try {
     const forecastRaw = await axios.get(`https://api.carbonintensity.org.uk/intensity/${date.toISOString()}/fw24h`);
     const currentData = await axios.get('https://api.carbonintensity.org.uk/intensity');
@@ -25,17 +27,18 @@ export default async function getData(setForecast, setCurrent, setGeneration) {
         topLabelComponent
       }});
 
-    const pieValues = generationData.data.data.generationmix.map(({fuel, perc}) => ({
-      value: perc,
-      text: fuel,
-      color: generationColours[fuel]
-    }));
-
-    console.log(pieValues)
+    const pieValues = generationData.data.data.generationmix
+      .filter(({perc}) => perc > 0)
+      .map(({fuel, perc}) => ({
+        value: perc,
+        text: fuel.replace(/^./, (c) => c.toUpperCase()),
+        color: generationColours[fuel]
+      }));
 
     setForecast(intensityForecastValues);
     setCurrent(currentData.data.data[0].intensity);
     setGeneration(pieValues);
+    setRefreshing(false);
   } catch (error) {
     console.error(error)
   }
@@ -58,7 +61,7 @@ const getColour = (value) => {
 }
 
 const generationColours = {
-  wind: 'cyan',
+  wind: 'lightskyblue',
   biomass: 'darkolivegreen',
   coal: 'darkgrey',
   nuclear: 'goldenrod',
