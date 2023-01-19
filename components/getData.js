@@ -24,9 +24,6 @@ export default async function getData(
     const regionalRaw = await axios.get(
       "https://api.carbonintensity.org.uk/regional"
     );
-    // const regionalForecastRaw = await axios.get(
-    //   `https://api.carbonintensity.org.uk/regional/intensity/${date.toISOString()}/fw24h`
-    // )
 
     const regions = {};
 
@@ -40,7 +37,8 @@ export default async function getData(
           color: generationColours[fuel],
         })),
         currentData: region.intensity,
-        ready: true
+        ready: true,
+        regionId: region.regionid
       }
     });
 
@@ -108,3 +106,34 @@ const generationColours = {
   other: "grey",
   gas: "aquamarine",
 };
+
+export const getRegionalForecast = async (regionId, setForecastData) => {
+  const date = new Date(Date.now());
+
+  try {
+    const regionalForecastRaw = await axios.get(`https://api.carbonintensity.org.uk/regional/intensity/${date.toISOString()}/fw24h/regionid/${regionId}`);
+
+    const intensityForecastValues = regionalForecastRaw.data.data.data
+      .filter((obj, index) => index % 2)
+      .map((obj) => {
+        const value = obj.intensity.forecast;
+        const label = new Date(obj.from).toTimeString().slice(0, 5);
+        const frontColor = getColour(value);
+        const topLabelComponent = () => (
+          <Text style={{ color: frontColor, fontSize: 18, marginBottom: 6 }}>
+            {value}
+          </Text>
+        );
+        return {
+          value,
+          label,
+          frontColor,
+          topLabelComponent,
+        };
+      });
+
+    setForecastData(intensityForecastValues)
+  } catch (error) {
+    console.error(error);
+  }
+}
