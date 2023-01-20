@@ -1,13 +1,8 @@
 import { Text, ScrollView, View } from "react-native";
-
 import { useState, useEffect } from "react";
-
 import PropTypes from "prop-types";
-
 import { BarChart, PieChart } from "react-native-gifted-charts";
-
 import { styles } from "../styles/style";
-
 import { getRegionalForecast } from "./getData";
 
 export default function RegionalView({ data }) {
@@ -59,7 +54,9 @@ export default function RegionalView({ data }) {
               initialSpacing={15}
             />
           ) : (
-            <Text>Fetching Forecast...</Text>
+            <View style={styles.loadingForecast}>
+              <Text>Fetching Forecast...</Text>
+            </View>
           )}
         </ScrollView>
       </View>

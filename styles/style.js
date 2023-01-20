@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    borderBottomColor: 'slategrey',
+    borderBottomColor: "slategrey",
     borderBottomWidth: 1,
   },
   currentHigh: {
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "space-between",
-    borderBottomColor: 'slategrey',
+    borderBottomColor: "slategrey",
     borderBottomWidth: 1,
   },
   generationContainer: {
@@ -70,6 +70,10 @@ export const styles = StyleSheet.create({
   },
   highlight: {
     borderWidth: 1,
-    borderColor: 'red',
-  }
+    borderColor: "red",
+  },
+  loadingForecast: {
+    flex: 1,
+    alignContent: "center",
+  },
 });
