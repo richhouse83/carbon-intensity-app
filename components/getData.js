@@ -1,12 +1,8 @@
 import { Text } from "react-native";
 import axios from "axios";
 
-export default async function getData(
-  setRegionsData,
-  setRefreshing
-) {
+export default async function getData(setRegionsData, setRefreshing) {
   try {
-
     const regionalRaw = await axios.get(
       "https://api.carbonintensity.org.uk/regional"
     );
@@ -16,16 +12,16 @@ export default async function getData(
     regionalRaw.data.data[0].regions.forEach((region) => {
       regions[region.shortname] = {
         pieValues: region.generationmix
-        .filter(({ perc }) => perc > 0)
-        .map(({ fuel, perc }) => ({
-          value: perc,
-          text: fuel.replace(/^./, (c) => c.toUpperCase()),
-          color: generationColours[fuel],
-        })),
+          .filter(({ perc }) => perc > 0)
+          .map(({ fuel, perc }) => ({
+            value: perc,
+            text: fuel.replace(/^./, (c) => c.toUpperCase()),
+            color: generationColours[fuel],
+          })),
         currentData: region.intensity,
         ready: true,
-        regionId: region.regionid
-      }
+        regionId: region.regionid,
+      };
     });
 
     setRegionsData(regions);
@@ -68,7 +64,9 @@ export const getRegionalForecast = async (regionId, setForecastData) => {
   const date = new Date(Date.now());
 
   try {
-    const regionalForecastRaw = await axios.get(`https://api.carbonintensity.org.uk/regional/intensity/${date.toISOString()}/fw24h/regionid/${regionId}`);
+    const regionalForecastRaw = await axios.get(
+      `https://api.carbonintensity.org.uk/regional/intensity/${date.toISOString()}/fw24h/regionid/${regionId}`
+    );
 
     const intensityForecastValues = regionalForecastRaw.data.data.data
       .filter((obj, index) => index % 2)
@@ -89,8 +87,8 @@ export const getRegionalForecast = async (regionId, setForecastData) => {
         };
       });
 
-    setForecastData(intensityForecastValues)
+    setForecastData(intensityForecastValues);
   } catch (error) {
     console.error(error);
   }
-}
+};

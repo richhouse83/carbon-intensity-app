@@ -32,5 +32,5 @@ MappedRegions.propTypes = {
   regionsData: PropTypes.object,
   refreshing: PropTypes.bool,
   onRefresh: PropTypes.func,
-  regionsArray: PropTypes.array
+  regionsArray: PropTypes.array,
 };
