@@ -28,33 +28,6 @@ export default async function getData(
       }
     });
 
-    // const intensityForecastValues = forecastRaw.data.data
-    //   .filter((obj, index) => index % 2)
-    //   .map((obj) => {
-    //     const value = obj.intensity.forecast;
-    //     const label = new Date(obj.from).toTimeString().slice(0, 5);
-    //     const frontColor = getColour(value);
-    //     const topLabelComponent = () => (
-    //       <Text style={{ color: frontColor, fontSize: 18, marginBottom: 6 }}>
-    //         {value}
-    //       </Text>
-    //     );
-    //     return {
-    //       value,
-    //       label,
-    //       frontColor,
-    //       topLabelComponent,
-    //     };
-    //   });
-
-    // const pieValues = generationData.data.data.generationmix
-    //   .filter(({ perc }) => perc > 0)
-    //   .map(({ fuel, perc }) => ({
-    //     value: perc,
-    //     text: fuel.replace(/^./, (c) => c.toUpperCase()),
-    //     color: generationColours[fuel],
-    //   }));
-
     setRegionsData(regions);
     setRefreshing(false);
   } catch (error) {
@@ -91,6 +64,7 @@ const generationColours = {
 };
 
 export const getRegionalForecast = async (regionId, setForecastData) => {
+  setForecastData([]);
   const date = new Date(Date.now());
 
   try {

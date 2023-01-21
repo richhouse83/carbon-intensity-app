@@ -4,11 +4,10 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    centerContent: true,
   },
   currentContainer: {
-    flex: 0.4,
+    flex: 0.2,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -25,18 +24,15 @@ export const styles = StyleSheet.create({
     color: "lightgreen",
   },
   safeContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 1.2,
+    backgroundColor: "slategrey",
   },
   scrollContainer: {
     flex: 1,
     backgroundColor: "#fff",
-    centerContent: true,
   },
   forecastContainer: {
-    flex: 0.9,
+    flex: 0.38,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "space-between",
@@ -44,13 +40,13 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   generationContainer: {
-    flex: 0.9,
+    flex: 0.42,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
   barChart: {
-    flex: 2,
+    flex: 1,
     paddingTop: 20,
   },
   currentText: {
@@ -62,8 +58,7 @@ export const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    paddingBottom: 7,
-    paddingTop: 5,
+    paddingBottom: 25,
   },
   pieChartContainer: {
     paddingLeft: 24,
@@ -72,8 +67,15 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "red",
   },
-  loadingForecast: {
-    flex: 1,
-    alignContent: "center",
+  regionText: {
+    justifyContent: 'center',
+    alignContent: 'center'
+  },
+  pressableText: {
+    fontSize: 25,
+  },
+  pressableFilteredText: {
+    fontSize: 25,
+    color: 'red'
   },
 });

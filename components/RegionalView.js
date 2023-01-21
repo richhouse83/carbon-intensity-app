@@ -1,11 +1,18 @@
-import { Text, ScrollView, View } from "react-native";
+import {
+  Text,
+  ScrollView,
+  View,
+  RefreshControl,
+  SafeAreaView,
+  ActivityIndicator,
+} from "react-native";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { BarChart, PieChart } from "react-native-gifted-charts";
 import { styles } from "../styles/style";
 import { getRegionalForecast } from "./getData";
 
-export default function RegionalView({ data }) {
+export default function RegionalView({ data, refreshing, onRefresh }) {
   const { currentData, generationData, region, regionId } = data;
 
   const [centreText, setCentreText] = useState("");
@@ -26,59 +33,69 @@ export default function RegionalView({ data }) {
 
   useEffect(() => {
     getRegionalForecast(regionId, setForecastData);
-  }, []);
+  }, [refreshing]);
 
   return (
-    <View style={styles.container}>
-      <Text>{region}</Text>
-      <View style={styles.currentContainer}>
-        <Text style={[styles.currentText, getTextColour(currentData.index)]}>
-          Current Carbon Intensity is {currentData.index}
-        </Text>
-        <Text style={[styles.actual, getTextColour(currentData.index)]}>
-          {currentData.actual ?? currentData.forecast}
-        </Text>
-        <Text>gCO2/kWh</Text>
-      </View>
-      <View style={styles.forecastContainer}>
-        <Text style={styles.sectionTitle}>24 hr Forecast:</Text>
-        <ScrollView style={styles.barChart} horizontal>
-          {forecastData.length > 0 ? (
-            <BarChart
-              barBorderRadius={4}
-              // isAnimated
-              data={forecastData}
-              noOfSections={2}
-              height={125}
-              barWidth={30}
-              initialSpacing={15}
-            />
-          ) : (
-            <View style={styles.loadingForecast}>
-              <Text>Fetching Forecast...</Text>
-            </View>
-          )}
-        </ScrollView>
-      </View>
-      <View style={styles.generationContainer}>
-        <Text style={styles.sectionTitle}>Current Generation</Text>
-        <View style={styles.pieChartContainer}>
-          <PieChart
-            radius={105}
-            donut
-            focusOnPress
-            onPress={updateCentreText}
-            centerLabelComponent={() => <Text>{centreText}</Text>}
-            data={generationData}
-          />
+    <SafeAreaView style={styles.safeContainer}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles.currentContainer}>
+          <Text>{region}</Text>
+          <Text style={[styles.currentText, getTextColour(currentData.index)]}>
+            Current Carbon Intensity is {currentData.index}
+          </Text>
+          <Text style={[styles.actual, getTextColour(currentData.index)]}>
+            {currentData.actual ?? currentData.forecast}
+          </Text>
+          <Text>gCO2/kWh</Text>
         </View>
-        <Text>Press for Detail</Text>
-      </View>
-    </View>
+        <View style={styles.forecastContainer}>
+          <Text style={styles.sectionTitle}>24 hr Forecast</Text>
+          {forecastData.length === 0 ? (
+            <View>
+              <Text>Fetching Forecast</Text>
+              <ActivityIndicator size="large" />
+            </View>
+          ) : (
+            <ScrollView contentContainerstyle={styles.barChart} horizontal>
+              <BarChart
+                barBorderRadius={4}
+                // isAnimated
+                data={forecastData}
+                noOfSections={2}
+                height={135}
+                barWidth={35}
+                initialSpacing={15}
+              />
+            </ScrollView>
+          )}
+        </View>
+        <View style={styles.generationContainer}>
+          <Text style={styles.sectionTitle}>Current Generation</Text>
+          <View style={styles.pieChartContainer}>
+            <PieChart
+              radius={105}
+              donut
+              focusOnPress
+              onPress={updateCentreText}
+              centerLabelComponent={() => <Text>{centreText}</Text>}
+              data={generationData}
+            />
+          </View>
+          <Text>Press for Detail</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 RegionalView.propTypes = {
+  refreshing: PropTypes.bool,
+  onRefresh: PropTypes.func,
   data: PropTypes.shape({
     currentData: PropTypes.shape({
       index: PropTypes.string,

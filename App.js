@@ -1,41 +1,75 @@
-import { Text, ScrollView, RefreshControl, SafeAreaView } from "react-native";
 import { useEffect, useState, useCallback } from "react";
-import { styles } from "./styles/style";
-import MappedRegions from "./components/MappedRegions";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import getData from "./components/getData";
+import MainView from "./components/MainView";
+import regionsArray from "./components/regionsArray";
+import SettingsView from "./components/SettingsView";
 
 export default function App() {
   const [refreshing, setRefreshing] = useState(false);
   const [regionsData, setRegionsData] = useState({});
+  const [filteredRegions, setFilteredRegions] = useState(regionsArray);
+
+  const Tab = createBottomTabNavigator();
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    getData(
-      setRegionsData,
-      setRefreshing
-    );
+    getData(setRegionsData, setRefreshing);
   }, []);
 
   useEffect(() => {
     setRefreshing(true);
-    getData(
-      setRegionsData,
-      setRefreshing
-    );
+    getData(setRegionsData, setRefreshing);
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <ScrollView
-        contentContainerStyle={refreshing ? null : styles.scrollContainer}
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === "Home") {
+              iconName = focused
+                ? "ios-information-circle"
+                : "ios-information-circle-outline";
+            } else if (route.name === "Settings") {
+              iconName = focused ? "ios-list" : "ios-list-outline";
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: "tomato",
+          tabBarInactiveTintColor: "gray",
+          headerShown: false,
+        })}
       >
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        {refreshing ? (
-          <Text>Getting Data...</Text>
-        ) : (
-          <MappedRegions regionsData={regionsData} />
-        )}
-      </ScrollView>
-    </SafeAreaView>
+        <Tab.Screen name="Home">
+          {(props) => (
+            <MainView
+              {...props}
+              onRefresh={onRefresh}
+              refreshing={refreshing}
+              regionsData={regionsData}
+              regionsArray={regionsArray.filter((region) =>
+                filteredRegions.includes(region)
+              )}
+            />
+          )}
+        </Tab.Screen>
+        <Tab.Screen name="Settings">
+          {(props) => (
+            <SettingsView
+              {...props}
+              filteredRegions={filteredRegions}
+              setFilteredRegions={setFilteredRegions}
+            />
+          )}
+        </Tab.Screen>
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
