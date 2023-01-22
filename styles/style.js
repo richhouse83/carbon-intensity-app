@@ -72,10 +72,27 @@ export const styles = StyleSheet.create({
     alignContent: 'center'
   },
   pressableText: {
-    fontSize: 25,
+    fontSize: 20,
   },
   pressableFilteredText: {
-    fontSize: 25,
-    color: 'red'
+    fontSize: 20,
+    color: 'lightgrey'
   },
+  selectContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: 'slategrey',
+    padding: 15,
+  },
+  settingsHeaderView: {
+    alignContent: "center",
+    padding: 15,
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+  },
+  settingsHeaderText: {
+    textAlign: 'center',
+    fontSize: 25,
+  }
 });
