@@ -6,6 +6,7 @@ import getData from "./components/getData";
 import MainView from "./components/MainView";
 import regionsArray from "./components/regionsArray";
 import SettingsView from "./components/SettingsView";
+import CIMapView from './components/CIMapView';
 
 export default function App() {
   const [refreshing, setRefreshing] = useState(false);
@@ -33,10 +34,12 @@ export default function App() {
 
             if (route.name === "Home") {
               iconName = focused
-                ? "ios-information-circle"
-                : "ios-information-circle-outline";
+                ? "pie-chart"
+                : "pie-chart-outline";
             } else if (route.name === "Settings") {
               iconName = focused ? "ios-list" : "ios-list-outline";
+            } else if (route.name === "Map") {
+              iconName = "map"
             }
 
             // You can return any component that you like here!
@@ -58,6 +61,11 @@ export default function App() {
                 filteredRegions.includes(region)
               )}
             />
+          )}
+        </Tab.Screen>
+        <Tab.Screen name="Map">
+        {(props) => (
+            <CIMapView {...props} regionsData={regionsData} />
           )}
         </Tab.Screen>
         <Tab.Screen name="Settings">
