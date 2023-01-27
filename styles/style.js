@@ -33,9 +33,15 @@ export const styles = StyleSheet.create({
   },
   forecastContainer: {
     flex: 0.38,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "space-between",
+    borderBottomColor: "slategrey",
+    borderBottomWidth: 1,
+  },
+  forecastLoadingContainer: {
+    flex: 0.38,
+    alignItems: "center",
+    justifyContent: "space-evenly",
     borderBottomColor: "slategrey",
     borderBottomWidth: 1,
   },

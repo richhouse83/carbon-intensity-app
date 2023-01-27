@@ -53,25 +53,33 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
           </Text>
           <Text>gCO2/kWh</Text>
         </View>
-        <View style={styles.forecastContainer}>
-          <Text style={styles.sectionTitle}>24 hr Forecast</Text>
+        <View
+          style={
+            forecastData.length === 0
+              ? styles.forecastLoadingContainer
+              : styles.forecastContainer
+          }
+        >
           {forecastData.length === 0 ? (
             <View>
               <Text>Fetching Forecast</Text>
               <ActivityIndicator size="large" />
             </View>
           ) : (
-            <ScrollView contentContainerstyle={styles.barChart} horizontal>
-              <BarChart
-                barBorderRadius={4}
-                // isAnimated
-                data={forecastData}
-                noOfSections={2}
-                height={135}
-                barWidth={35}
-                initialSpacing={15}
-              />
-            </ScrollView>
+            <>
+              <Text style={styles.sectionTitle}>24 hr Forecast</Text>
+              <ScrollView contentContainerstyle={styles.barChart} horizontal>
+                <BarChart
+                  barBorderRadius={4}
+                  // isAnimated
+                  data={forecastData}
+                  noOfSections={2}
+                  height={135}
+                  barWidth={35}
+                  initialSpacing={15}
+                />
+              </ScrollView>
+            </>
           )}
         </View>
         <View style={styles.generationContainer}>
