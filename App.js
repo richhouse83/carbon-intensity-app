@@ -7,6 +7,7 @@ import MainView from "./components/MainView";
 import regionsArray from "./components/regionsArray";
 import SettingsView from "./components/SettingsView";
 import CIMapView from "./components/CIMapView";
+import * as SecureStore from 'expo-secure-store';
 
 export default function App() {
   const [refreshing, setRefreshing] = useState(false);
@@ -25,6 +26,18 @@ export default function App() {
     getData(setRegionsData, setRefreshing);
   }, []);
 
+  async function getSaveData() {
+    let result = await SecureStore.getItemAsync('saved-data');
+    if (result) {
+      setFilteredRegions(JSON.parse(result))
+    }
+  }
+
+  useEffect(() => {
+    getSaveData()
+  }, [])
+  
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -35,7 +48,7 @@ export default function App() {
             if (route.name === "Home") {
               iconName = focused ? "pie-chart" : "pie-chart-outline";
             } else if (route.name === "Settings") {
-              iconName = focused ? "ios-list" : "ios-list-outline";
+              iconName = focused ? "cog" : "cog-outline";
             } else if (route.name === "Map") {
               iconName = "map";
             }

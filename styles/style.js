@@ -6,19 +6,20 @@ export const styles = StyleSheet.create({
     backgroundColor: "#fff",
     centerContent: true,
   },
-  currentContainer: {
+  currentFlex:{
     flex: 0.2,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
     borderBottomColor: "slategrey",
     borderBottomWidth: 1,
+  },
+  currentContainer: {
+    backgroundColor: "#fff",
+    alignItems: "center",
   },
   currentHigh: {
     color: "red",
   },
   currentModerate: {
-    color: "black",
+    color: "orange",
   },
   currentLow: {
     color: "lightgreen",
@@ -57,10 +58,12 @@ export const styles = StyleSheet.create({
   },
   currentText: {
     fontSize: 20,
+    paddingBottom: '2%',
   },
   actual: {
     fontSize: 50,
     fontWeight: "bold",
+    paddingBottom: '2%',
   },
   sectionTitle: {
     fontSize: 20,
@@ -101,8 +104,54 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 25,
   },
+  mapContainer: {
+    flex: 4,
+    backgroundColor: "#fff",
+    centerContent: true,
+  },
+  mapView: {
+    flex: 2,
+  },
   map: {
     width: '100%',
     height: '100%',
+    zIndex: 4,
   },
+  mapInfoView: {
+    flex: 1,
+    zIndex: 5,
+    justifyItems: 'center',
+    marginTop: '4%',
+  },
+  noSelectedRegionView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  creditsHeaderView: {
+    alignContent: "center",
+    padding: 15,
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    borderTopColor: 'black',
+    borderTopWidth: 1,
+  },
+  creditsHeaderText: {
+    textAlign: 'center',
+    fontSize: 25,
+  },
+  creditsView: {
+    padding: '4%',
+    alignItems: 'center',
+  },
+  buttonWrapperStyle: {
+    paddingTop: '14%',
+    alignItems: 'flex-start'
+  },
+  fetchingText: {
+    marginBottom: '4%',
+  },
+  linkText: {
+    color: 'darkblue',
+  }
 });

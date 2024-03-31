@@ -2,11 +2,12 @@ import { Text } from "react-native";
 import Swiper from "react-native-swiper";
 import PropTypes from "prop-types";
 import RegionalView from "./RegionalView";
+import { styles } from "../styles/style";
 
 export default function MappedRegions(props) {
   const { regionsData, onRefresh, refreshing, regionsArray } = props;
   return (
-    <Swiper showsPagination={false}>
+    <Swiper showsPagination={false} showsButtons={true} buttonWrapperStyle={styles.buttonWrapperStyle}>
       {regionsArray.map((region) => {
         if (regionsData[region]?.ready)
           return (

@@ -1,10 +1,13 @@
-import { SafeAreaView, View } from "react-native";
+import { useState } from "react";
+import { SafeAreaView, View, Text } from "react-native";
 import MapView, { Geojson } from "react-native-maps";
 import PropTypes from "prop-types";
 import { styles } from "../styles/style";
 import regions from "../geojson/regions.json";
+import { CurrentRegionInfo } from "./RegionalView";
 
 export default function CIMapView({ regionsData }) {
+  const [selectedRegionName, setSelectedRegionName] = useState(null);
   const features = regions.features.map((region) => ({
     features: [region],
     regionName: regionIds[region.properties.regionid],
@@ -14,17 +17,34 @@ export default function CIMapView({ regionsData }) {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <View style={styles.container}>
-        <MapView style={styles.map}>
-          {features.map((region) => (
-            <Geojson
-              key={region.features[0].properties.regionid}
-              geojson={region}
-              fillColor={
-                colorMap[regionsData[region.regionName].currentData.index]
-              }
-            />
-          ))}
-        </MapView>
+        <View style={styles.mapContainer}>
+          <MapView 
+            style={styles.map}
+            >
+            {features.map((region) => (
+              <Geojson
+                key={region.features[0].properties.regionid}
+                geojson={region}
+                fillColor={
+                  colorMap[regionsData[region.regionName].currentData.index]
+                }
+                onPress={() => {
+                  setSelectedRegionName(region.regionName);
+                }}
+              />
+            ))}
+          </MapView>
+        </View>
+        <View style={styles.mapInfoView}>
+          {selectedRegionName ?
+          <CurrentRegionInfo 
+            region={selectedRegionName} 
+            currentData={regionsData[selectedRegionName]?.currentData}
+          /> : (
+          <View style={styles.noSelectedRegionView}>
+            <Text>Click on a region for details</Text>
+          </View>)}
+        </View>
       </View>
     </SafeAreaView>
   );

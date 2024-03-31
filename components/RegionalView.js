@@ -12,6 +12,29 @@ import { BarChart, PieChart } from "react-native-gifted-charts";
 import { styles } from "../styles/style";
 import { getRegionalForecast } from "./getData";
 
+const getTextColour = (index) => {
+  return index.includes("high")
+    ? styles.currentHigh
+    : index === "moderate"
+    ? styles.currentModerate
+    : styles.currentLow;
+};
+
+export function CurrentRegionInfo({region, currentData}) {
+  return (
+    <View style={styles.currentContainer}>
+        <Text>{region}</Text>
+        <Text style={[styles.currentText, getTextColour(currentData.index)]}>
+          Current Carbon Intensity is {currentData.index}
+        </Text>
+        <Text style={[styles.actual, getTextColour(currentData.index)]}>
+          {currentData.actual ?? currentData.forecast}
+        </Text>
+        <Text>gCO2/kWh</Text>
+    </View>
+  )
+}
+
 export default function RegionalView({ data, refreshing, onRefresh }) {
   const { currentData, generationData, region, regionId } = data;
 
@@ -23,13 +46,7 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
       centreText === `${text} ${value}%` ? "" : `${text} ${value}%`
     );
 
-  const getTextColour = (index) => {
-    return index.includes("high")
-      ? styles.currentHigh
-      : index === "moderate"
-      ? styles.currentModerate
-      : styles.currentLow;
-  };
+  
 
   useEffect(() => {
     getRegionalForecast(regionId, setForecastData);
@@ -43,15 +60,8 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <View style={styles.currentContainer}>
-          <Text>{region}</Text>
-          <Text style={[styles.currentText, getTextColour(currentData.index)]}>
-            Current Carbon Intensity is {currentData.index}
-          </Text>
-          <Text style={[styles.actual, getTextColour(currentData.index)]}>
-            {currentData.actual ?? currentData.forecast}
-          </Text>
-          <Text>gCO2/kWh</Text>
+        <View style={styles.currentFlex}>
+          <CurrentRegionInfo region={region} currentData={currentData} />
         </View>
         <View
           style={
@@ -62,7 +72,7 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
         >
           {forecastData.length === 0 ? (
             <View>
-              <Text>Fetching Forecast</Text>
+              <Text style={styles.fetchingText}>Fetching Forecast</Text>
               <ActivityIndicator size="large" />
             </View>
           ) : (
@@ -99,6 +109,15 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
       </ScrollView>
     </SafeAreaView>
   );
+}
+
+CurrentRegionInfo.propTypes = {
+  region: PropTypes.string,
+  currentData: PropTypes.shape({
+    index: PropTypes.string,
+    forecast: PropTypes.number,
+    actual: PropTypes.number,
+  }).isRequired, 
 }
 
 RegionalView.propTypes = {
