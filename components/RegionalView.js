@@ -2,7 +2,6 @@ import {
   Text,
   ScrollView,
   View,
-  RefreshControl,
   SafeAreaView,
   ActivityIndicator,
 } from "react-native";
@@ -35,7 +34,7 @@ export function CurrentRegionInfo({region, currentData}) {
   )
 }
 
-export default function RegionalView({ data, refreshing, onRefresh }) {
+export default function RegionalView({ data, refreshing }) {
   const { currentData, generationData, region, regionId } = data;
 
   const [centreText, setCentreText] = useState("");
@@ -53,13 +52,7 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
   }, [refreshing]);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
+    <SafeAreaView style={styles.safeContainer}>      
         <View style={styles.currentFlex}>
           <CurrentRegionInfo region={region} currentData={currentData} />
         </View>
@@ -76,9 +69,9 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
               <ActivityIndicator size="large" />
             </View>
           ) : (
-            <>
+            <View style={styles.barChartView}>
               <Text style={styles.sectionTitle}>24 hr Forecast</Text>
-              <ScrollView contentContainerstyle={styles.barChart} horizontal>
+              <ScrollView contentContainerStyle={styles.barChart} horizontal>
                 <BarChart
                   barBorderRadius={4}
                   // isAnimated
@@ -89,7 +82,7 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
                   initialSpacing={15}
                 />
               </ScrollView>
-            </>
+            </View>
           )}
         </View>
         <View style={styles.generationContainer}>
@@ -106,7 +99,6 @@ export default function RegionalView({ data, refreshing, onRefresh }) {
           </View>
           <Text>Press for Detail</Text>
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }

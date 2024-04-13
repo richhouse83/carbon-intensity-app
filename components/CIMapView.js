@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SafeAreaView, View, Text } from "react-native";
+import { SafeAreaView, ScrollView, View, Text } from "react-native";
 import MapView, { Geojson } from "react-native-maps";
 import PropTypes from "prop-types";
 import { styles } from "../styles/style";
@@ -15,8 +15,7 @@ export default function CIMapView({ regionsData }) {
   })).filter(({regionId}) => regionId <= 14);
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <View style={styles.container}>
+    <SafeAreaView style={styles.safeMapContainer}>
         <View style={styles.mapContainer}>
           <MapView 
             style={styles.map}
@@ -37,15 +36,16 @@ export default function CIMapView({ regionsData }) {
         </View>
         <View style={styles.mapInfoView}>
           {selectedRegionName ?
-          <CurrentRegionInfo 
-            region={selectedRegionName} 
-            currentData={regionsData[selectedRegionName]?.currentData}
-          /> : (
+            <ScrollView>
+              <CurrentRegionInfo 
+                region={selectedRegionName} 
+                currentData={regionsData[selectedRegionName]?.currentData}
+              />
+            </ScrollView> : (
           <View style={styles.noSelectedRegionView}>
             <Text>Click on a region for details</Text>
           </View>)}
         </View>
-      </View>
     </SafeAreaView>
   );
 }

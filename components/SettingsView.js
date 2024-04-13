@@ -1,4 +1,4 @@
-import { Text, View, FlatList, SafeAreaView, Pressable, Switch, Linking, Alert } from "react-native";
+import { Text, View, FlatList, SafeAreaView, ScrollView, Pressable, Switch, Linking, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -44,78 +44,51 @@ export default function SettingsView({ filteredRegions, setFilteredRegions }) {
   }
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-        
-      <View style={styles.container}>
+    <SafeAreaView style={styles.safeContainer}>  
+      <View style={styles.settingsContainer}>
         <View style={[styles.settingsHeaderView]}>
           <Text style={[styles.settingsHeaderText]}>Select Regions To View</Text>
         </View>
-        <FlatList
-          data={isFilteredArray.map(({ region, isFiltered, colour, style, icon }) => ({
-            key: region,
-            isFiltered,
-            colour,
-            style,
-            icon
-          }))}
-          renderItem={({ item }) => (
-            <Pressable onPress={() => changeFilter(item.key)}>
-              <View style={styles.selectContainer}>
-                <Ionicons
-                  name={item.icon}
-                  size={20}
-                  color={item.colour}
-                />
-                <Text
-                  style={
-                    item.style
-                  }
-                >
-                  {item.key}
-                </Text>
-                <Switch value={!item.isFiltered} onValueChange={() => changeFilter(item.key)}/>
-              </View>
-            </Pressable>
-          )}
-        />
-      <View style={[styles.creditsHeaderView]}>
+        <View style={styles.flatListView}>
+          <FlatList
+            data={isFilteredArray.map(({ region, isFiltered, colour, style, icon }) => ({
+              key: region,
+              isFiltered,
+              colour,
+              style,
+              icon
+            }))}
+            renderItem={({ item }) => (
+              <Pressable onPress={() => changeFilter(item.key)}>
+                <View style={styles.selectContainer}>
+                  <Ionicons
+                    name={item.icon}
+                    size={20}
+                    color={item.colour}
+                  />
+                  <Text
+                    style={
+                      item.style
+                    }
+                  >
+                    {item.key}
+                  </Text>
+                  <Switch value={!item.isFiltered} onValueChange={() => changeFilter(item.key)}/>
+                </View>
+              </Pressable>
+            )}
+          />
+        </View>
+        <View style={[styles.creditsHeaderView]}>
           <Text style={[styles.creditsHeaderText]}>Developer Information</Text>
         </View>
-        <View style={styles.creditsView}>
-          <Text style={styles.sectionTitle}>Built by Rich House</Text>
-          <Pressable
-            onPress={async () => {
-              const url = 'http://richhouse.co.uk'
-              const supported = await Linking.canOpenURL(url);
-
-              if (supported) {
-                await Linking.openURL(url);
-              } else {
-                Alert.alert(`Don't know how to open this URL: ${url}`);
-              }
-            }}
-          >
-            <Text style={[styles.sectionTitle, styles.linkText]}>richhouse.co.uk</Text>
-          </Pressable>
-          <Pressable
-            onPress={async () => {
-              const url = 'mailto:info@richhouse.co.uk'
-              const supported = await Linking.canOpenURL(url);
-
-              if (supported) {
-                await Linking.openURL(url);
-              } else {
-                Alert.alert(`Don't know how to open this URL: ${url}`);
-              }
-            }}
-          >
-            <Text style={[styles.sectionTitle, styles.linkText]}>info@richhouse.co.uk</Text>
-          </Pressable>
-            <Text style={[styles.sectionTitle]}>Makes use of the API from 
-            </Text>
+        <View style={styles.creditsScrollView}>
+          <ScrollView >
+            <View style={styles.creditsView}>
+              <Text style={styles.sectionTitle}>Built by Rich House</Text>
               <Pressable
                 onPress={async () => {
-                  const url = 'https://carbonintensity.org.uk/'
+                  const url = 'http://richhouse.co.uk'
                   const supported = await Linking.canOpenURL(url);
 
                   if (supported) {
@@ -125,8 +98,40 @@ export default function SettingsView({ filteredRegions, setFilteredRegions }) {
                   }
                 }}
               >
-            <Text style={[styles.sectionTitle, styles.linkText]}>https://carbonintensity.org.uk/</Text>
+                <Text style={[styles.sectionTitle, styles.linkText]}>richhouse.co.uk</Text>
               </Pressable>
+              <Pressable
+                onPress={async () => {
+                  const url = 'mailto:info@richhouse.co.uk'
+                  const supported = await Linking.canOpenURL(url);
+
+                  if (supported) {
+                    await Linking.openURL(url);
+                  } else {
+                    Alert.alert(`Don't know how to open this URL: ${url}`);
+                  }
+                }}
+              >
+                <Text style={[styles.sectionTitle, styles.linkText]}>info@richhouse.co.uk</Text>
+              </Pressable>
+              <Text style={[styles.sectionTitle]}>Makes use of the API from 
+              </Text>
+              <Pressable
+                  onPress={async () => {
+                    const url = 'https://carbonintensity.org.uk/'
+                    const supported = await Linking.canOpenURL(url);
+
+                    if (supported) {
+                      await Linking.openURL(url);
+                    } else {
+                      Alert.alert(`Don't know how to open this URL: ${url}`);
+                    }
+                  }}
+                >
+                  <Text style={[styles.sectionTitle, styles.linkText]}>https://carbonintensity.org.uk/</Text>
+              </Pressable>
+            </View>
+          </ScrollView>
         </View>
       </View>
     </SafeAreaView>

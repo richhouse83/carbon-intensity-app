@@ -2,12 +2,13 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     centerContent: true,
   },
+  settingsContainer: {
+    height: '100%',
+  },
   currentFlex:{
-    flex: 0.2,
     borderBottomColor: "slategrey",
     borderBottomWidth: 1,
   },
@@ -25,36 +26,42 @@ export const styles = StyleSheet.create({
     color: "lightgreen",
   },
   safeContainer: {
-    flex: 1.2,
-    backgroundColor: "slategrey",
+    height: '100%',
+    backgroundColor: "#fff",
   },
-  scrollContainer: {
+  safeMapContainer: {
     flex: 1,
     backgroundColor: "#fff",
   },
+  scrollContainer: {
+    backgroundColor: "#fff",
+  },
   forecastContainer: {
-    flex: 0.38,
+    flex: 1,
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
+    // justifyContent: "space-between",
     borderBottomColor: "slategrey",
     borderBottomWidth: 1,
   },
   forecastLoadingContainer: {
-    flex: 0.38,
+    flex: 1,
     alignItems: "center",
     justifyContent: "space-evenly",
     borderBottomColor: "slategrey",
     borderBottomWidth: 1,
   },
   generationContainer: {
-    flex: 0.42,
+    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
+  barChartView: {
+    alignItems: "center",
+  },
   barChart: {
-    flex: 1,
-    paddingTop: 20,
+    paddingVertical: 20,
   },
   currentText: {
     fontSize: 20,
@@ -95,6 +102,7 @@ export const styles = StyleSheet.create({
     padding: 15,
   },
   settingsHeaderView: {
+    flex: 1,
     alignContent: "center",
     padding: 15,
     borderBottomColor: 'grey',
@@ -129,6 +137,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   creditsHeaderView: {
+    flex: 1,
     alignContent: "center",
     padding: 15,
     borderBottomColor: 'grey',
@@ -140,12 +149,15 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 25,
   },
+  creditsScrollView: {
+    flex: 4,
+  },
   creditsView: {
     padding: '4%',
     alignItems: 'center',
   },
   buttonWrapperStyle: {
-    paddingTop: '14%',
+    paddingTop: '22%',
     alignItems: 'flex-start'
   },
   fetchingText: {
@@ -153,5 +165,8 @@ export const styles = StyleSheet.create({
   },
   linkText: {
     color: 'darkblue',
-  }
+  },
+  flatListView: {
+    flex: 4,
+  },
 });
